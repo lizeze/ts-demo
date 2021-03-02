@@ -1,0 +1,317 @@
+﻿{
+    "serverURL": {
+        "$geoServer$": "http://168.168.10.77:8080",
+        "$fileServer$": "https://filecim.jiansheyun.com.cn"
+    },
+    "map3d": {
+        "homeButton": true,
+        "sceneModePicker": false,
+        "navigationHelpButton": true,
+        "infoBox": true,
+        "timeline": false,
+        "animation": false,
+        "vrButton": false,
+        "geocoder": false,
+        "showRenderLoopErrors": true,
+        "center": {"y":22.707197,"x":113.529193,"z":553.84,"heading":14.3,"pitch":-50.6,"roll":0.1},
+        "minzoom": 1,
+        "maxzoom": 50000000,
+        "style": {
+            "atmosphere": true,
+            "lighting": false,
+            "fog": false,
+            "testTerrain": false
+        },
+        "mouseZoom": true,
+        "location": {
+            "crs": "",
+            "format": "<div>视高：{height}米</div><div>方向：{heading}度</div><div>海拔：{z}米</div><div>纬度:{y}</div><div>经度:{x}</div>"
+        },
+        "navigation": {
+            "legend": {
+                "left": "0px",
+                "bottom": "-1px"
+            },
+            "compass": {
+                "top": "50px",
+                "right": "2px"
+            }
+        },
+        "terrain": {
+            "url": "$serverURL$/terrain",
+            "visible": false
+        },
+        "basemaps": [
+            {
+                "id": 10,
+                "name": "地图底图",
+                "type": "group"
+            },
+            {
+                "pid": 10,
+                "name": "高德地图",
+                "icon": "img/basemaps/bingAerial.png",
+                "type": "www_gaode",
+                "layer": "Aerial"
+            },
+            {
+                "pid": 10,
+                "name": "ArcGIS卫星",
+                "icon": "img/basemaps/esriWorldImagery.png",
+                "type": "arcgis",
+                "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+                "enablePickFeatures": false,
+                "visible": true
+            }
+        ],
+        "operationallayers": [
+            {
+                "id": 61,
+                "name": "模型",
+                "type": "group"
+            },
+            {
+                "id": 611,
+                "pid": 61,
+                "type": "3dtiles",
+                "name": "BIM模型",
+                "url": "$fileServer$/20200112001/4ee36cfd-36b3-4d20-b39a-05e041a2980c/tiles/tileset.json",
+                "offset":{"x":113.530178,"y":22.711305,"z":0.0,"heading":314.1},
+                "visible": false
+            },
+            {
+                "id": 612,
+                "pid": 61,
+                "type": "vector",
+                "name": "监测点",
+                "ProId": 100001,
+                "LayerCode": "11.30.004",
+                "url": "$geoServer$/geoserver/Lz_PedZaiTi_vectorView_pointdlh_Ws/wms",
+                "layers": "PedZaiTi_vectorView_point",
+                "parameters": {
+                    "transparent": "true",
+                    "format": "image/png"
+                },
+                "minimumLevel": 8,
+                "visible": true
+            },
+            {
+                "id": 613,
+                "pid": 61,
+                "type": "vector",
+                "name": "基坑轮廓线",
+                "ProId": 100001,
+                "LayerCode": "11.50.006",
+                "url": "$geoServer$/geoserver/Lz_PedZaiTi_vectorView_pointdlh_Ws/wms",
+                "layers": "PedZaiTi_vectorView_linestring",
+                "parameters": {
+                    "transparent": "true",
+                    "format": "image/png"
+                },
+                "minimumLevel": 8,
+                "visible": true
+            },
+            {
+                "id": 614,
+                "pid": 61,
+                "type": "3dtiles",
+                "name": "图纸",
+                "url": "$fileServer$/20200112001/4ee36cfd-36b3-4d20-b39a-05e041a2980c1/tiles/tileset.json",
+                "visible": true
+            }
+        ]
+    },
+    "widget": {
+        "debugger": false,
+        "version": "time",
+        "defaultOptions": {
+            "style": "dark",
+            "windowOptions": {
+                "skin": "layer-mars-dialog2 animation-scale-up",
+                "position": "r",
+                "maxmin": false,
+                "resize": true
+            },
+            "autoDisable": true,
+            "disableOhter": true
+        },
+        "widgetsAtStart": [
+            {
+                "name": "左上角工具栏",
+                "uri": "widgets/toolBar/widget.js",
+                "data": [
+                    {
+                        "name": "底图设置",
+                        "custom": "basemap"
+                    },
+                    {
+                        "name": "图层管理",
+                        "icon": "fa fa-tasks",
+                        "widget": "widgets/geo_manageLayers/widget.js"
+                    },
+                    {
+                        "name": "模型剖切",
+                        "icon": "fa fa-crop",
+                        "onclick": "javascript:modelClip()"
+                    },
+                    {
+                        "name": "工具",
+                        "icon": "fa fa-cubes",
+                        "children": [
+                            {
+                                "name": "图上量算",
+                                "icon": "fa fa fa-calculator",
+                                "widget": "widgets/measure/widget.js"
+                            },
+                            {
+                                "name": "坐标定位",
+                                "icon": "fa fa-map-pin",
+                                "widget": "widgets/centerXY/widget.js"
+                            },
+                            {
+                                "name": "地区导航",
+                                "icon": "fa fa-paper-plane",
+                                "widget": "widgets/navXZQH/widget.js"
+                            },
+                            {
+                                "name": "视角书签",
+                                "icon": "fa fa-tags",
+                                "widget": "widgets/bookmark/widget.js"
+                            },
+                            {
+                                "name": "地下模式",
+                                "icon": "fa fa-list",
+                                "onclick": "underGround()"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "参数设置",
+                        "custom": "setting"
+                    },
+                    {
+                        "name": "图例",
+                        "icon": "fa fa-tree",
+                        "onclick": "javascript:openPitLegend()"
+                    }
+                ]
+            }
+        ],
+        "widgets": [
+            {
+                "name": "项目工具",
+                "uri": "widgets/pit_projectTool/widget.js",
+                "autoDisable": false,
+                "disableOhter": false,
+                "windowOptions": {
+                    "width": 1500,
+                    "height": 165,
+                    "position": {
+                        "top": 13,
+                        "left": 275
+                    }
+                },
+                "openAtStart": true
+            },
+            {
+                "name": "模板",
+                "type": "group",
+                "children": [
+                    {
+                        "name": "iframe弹窗模板",
+                        "uri": "widgets/_example/widget.js",
+                        "windowOptions": {
+                            "width": 300,
+                            "height": 400,
+                            "position": {
+                                "bottom": 10,
+                                "right": 10
+                            },
+                            "maxmin": true,
+                            "resize": true
+                        },
+                        "openAtStart": false
+                    },
+                    {
+                        "name": "div弹窗模板",
+                        "uri": "widgets/_example_divwin/widget.js"
+                    },
+                    {
+                        "name": "append模板",
+                        "uri": "widgets/_example_append/widget.js"
+                    }
+                ]
+            },
+            {
+                "name": "地图工具",
+                "type": "group",
+                "children": [
+                    {
+                        "name": "图层管理",
+                        "uri": "widgets/geo_manageLayers/widget.js",
+                        "windowOptions": {
+                            "position": {
+                                "top": 435,
+                                "bottom": 30,
+                                "left": 5
+                            }
+                        },
+                        "autoDisable": false,
+                        "disableOhter": false,
+                        "openAtStart": true
+                    },
+                    {
+                        "name": "模型树",
+                        "uri": "widgets/bimtree/widget.js",
+                        "windowOptions": {
+                            "height": 370,
+                            "position": {
+                                "top": 50,
+                                "left": 5
+                            }
+                        },
+                        "autoDisable": false,
+                        "disableOhter": false,
+                        "openAtStart": false
+                    },
+                    {
+                        "name": "图上量算",
+                        "uri": "widgets/measure/widget.js",
+                        "windowOptions": {
+                            "position": {
+                                "bottom": 30,
+                                "right": 40
+                            }
+                        }
+                    },
+                    {
+                        "name": "视角书签",
+                        "uri": "widgets/bookmark/widget.js"
+                    },
+                    {
+                        "name": "坐标定位",
+                        "uri": "widgets/centerXY/widget.js"
+                    },{
+                        "name": "标绘",
+                        "uri": "widgets/plot/widget.js",
+                        "windowOptions": {
+                            "position": {
+                                "top": 45,
+                                "bottom": 30,
+                                "right": 5
+                            }
+                        },
+                        "openAtStart": false
+                    },
+                    {
+                        "name": "主页图例",
+                        "uri": "widgets/homePage/widget.js",
+                        "autoDisable": false,
+                        "disableOhter": false,
+                        "openAtStart": false
+                    }
+                ]
+            }
+        ]
+    }
+}

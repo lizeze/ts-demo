@@ -1,14 +1,14 @@
-import { person } from "./2";
 
 
 
 class fn {
 
-    test(p: person): void {
+    test(p: String): void {
 
-        console.log(p.age)
-
+        console.log(p)
     }
 }
 let cim = new fn()
+
+
 export { cim }

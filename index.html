@@ -1,22 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/require.js/2.3.6/require.js"></script>
+    <!-- <script src="./dist/Cesium/Cesium.js" type="module"></script> -->
+    <!-- <script src="./dist/1.js"></script> -->
 </head>
 
 <body>
 
+    <div id="cesiumContainer"></div>
 </body>
 <script>
-    require(['dist/1'], function (a) {
-        debugger
-        a.cim.test({ age: 2 })
-    })
+    var PassTRANSLUCENT = 2; var underGroundFlag = false; var LzskertHeight = 1.0;
+    var CESIUM_BASE_URL = '/dist/Cesium/'
+    require.config({
+        baseUrl: '/dist',
+        urlArgs: 'v=1',
+        map: {
+            "*": {
+                "css": "css"
+            }
+        },
+        paths: {
+            "jQuery": "jquery-3.5.1.min",
+            "turf": "turf/turf.min",
+            "Cesium": "Cesium/Cesium",
+            "mars3d": "cesium-mars/mars3d-src",
+            "fixGltf": "CesiumPlugins/gltf/fixGltf",
+            "navigation": "CesiumPlugins/navigation/viewerCesiumNavigationMixin.min",
 
+
+        },
+        shim: {
+            "Cesium": ["css!/dist/Cesium/Widgets/widgets.css"],
+            "mars3d": ["jQuery", "turf", "Cesium"],
+            "fixGltf":["Cesium"],
+            "navigation":["Cesium"]
+        }
+    })
+    require(['Cesium','mars3d'], function (Cesium,mars3d) {
+        debugger
+        var viewer = null;
+        var apiUrl = 'https://cimapi.bchdjs.com/'
+        var PassTRANSLUCENT = 2
+        var underGroundFlag = false
+        var LzskertHeight = 1.0
+        var oldColor = new Cesium.Color(8 / 255, 21 / 255, 40 / 255, 1)
+        var user =
+        {
+            tokenid: " ",
+            duetime: "",
+            getToken: function () {
+                return this.tokenid
+            }
+        }
+
+        viewer = mars3d.createMap({
+            id: 'cesiumContainer',
+            url: 'config/config.json',
+            infoBox: true,
+            success: function (_viewer, gisdata, jsondata) {
+                mars3d.widget.init(_viewer, jsondata.widget)
+            }
+        })
+    })
 </script>
 
 </html>
